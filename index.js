@@ -6,6 +6,7 @@ var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
 var player = require('chromecast-player')();
+var os = require('os');
 
 // configure app to use bodyParser
 app.use(bodyParser.urlencoded({
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-
+var server_name = os.hostname();
 
 //api implimentation
 var router = express.Router();
@@ -26,7 +27,7 @@ router.post('/cast', function (req, res) {
 
     media_path = req.body.path
     var player = require('chromecast-player')();
-    var media = 'http://192.168.1.4:3000/api/media/1.mp4';
+    var media = 'http://'+server_name+':'+ port +'/api/media/1.mp4';
     player.launch(media, function (err, p) {
         p.once('playing', function () {
             console.log('playback has started.');
@@ -44,6 +45,8 @@ router.get('/media/:filename', function (req, res) {
 // accessed at GET http://localhost:3000/api//listfiles)
 router.post('/listfiles', function (req, res) {
     console.log(req.connection.remoteAddress);
+    console.log(req.ip);
+    console.log(req);
     var homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
     var folder_path = req.body.path || homedir;
     var folder = req.body.folder || '';
