@@ -21,7 +21,7 @@ var router = express.Router();
 //selected_filepath
 var media_path = null;
 
-// accessed at GET http://localhost:3000/api//listfiles)
+// accessed at GET http://localhost:3000/api/listfiles)
 router.post('/cast', function (req, res) {
 
     media_path = req.body.path
@@ -45,7 +45,7 @@ router.get('/media/:filename', function (req, res) {
 router.post('/listfiles', function (req, res) {
     var homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
     var fol_path = req.body.path || homedir;
-    var folder = req.body.folder;
+    var folder = req.body.folder || '';
     fol_path = path.join(fol_path, folder);
     var exist = fs.existsSync(fol_path);
     var isfolder = null;
