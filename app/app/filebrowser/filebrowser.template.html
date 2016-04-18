@@ -1,3 +1,7 @@
-<h1>this is file browser component</h1>
-<div>{{path}}</div>
-<div class='simplestyle'>hello</div>
+<div>{{path}}</div> 
+<ul class="files">
+    <li *ngFor="#file of fileList" (click)="fileSelectionChanged(file)">
+    {{ file }}
+    </li>
+</ul>
+<div>{{dataJson}}</div>

@@ -5,18 +5,7 @@ import {DataService} from "../services/data.services";
 
 @Component({
     selector: 'filebrowser-component',
-    template: `<h1>this is file browser component</h1>
-<div>{{path}}</div>
-<div class='simplestyle'>hello</div>
-    <button [disabled]="ismedia_selected !== true" (click)="cast()">Cast</button>
-    
-    <ul>
-      <li *ngFor="#file of fileList" (click)="fileSelectionChanged(file)">
-        {{ file }}
-      </li>
-    </ul>
-    <div>{{dataJson}}</div>
-    `,
+    templateUrl: 'app/filebrowser/filebrowser.template.html',
     styleUrls: ['app/filebrowser/style.css'],
     directives: [],
     providers: [DataService]
@@ -24,6 +13,7 @@ import {DataService} from "../services/data.services";
 
 export class FileBrowserComponent implements OnInit {
     dataJson: string; 
+    media_file_location: string;
     path:string = '';  
     ismedia_selected:boolean = false;
     fileList:String[] = [];
@@ -45,14 +35,15 @@ export class FileBrowserComponent implements OnInit {
                             }
                             else if(data.exist === true && data.isfolder === false) {
                                 this.ismedia_selected == true; 
-                                this.cast();
+                                this.media_file_location = data.file_location;
+                                this.cast(data.file_location);
                             }
                         }, 
                         error => alert(error), () => console.log('finished'));
     }
-    cast(){
+    cast(path){
         console.log('casting');
-        this._dataservice.cast(this.path).subscribe(data => 
+        this._dataservice.cast(path).subscribe(data => 
                         {
                             this.dataJson = JSON.stringify(data);
                         }, 

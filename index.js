@@ -43,28 +43,28 @@ router.get('/media/:filename', function (req, res) {
 
 // accessed at GET http://localhost:3000/api//listfiles)
 router.post('/listfiles', function (req, res) {
+    console.log(req.connection.remoteAddress);
     var homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
-    var fol_path = req.body.path || homedir;
+    var folder_path = req.body.path || homedir;
     var folder = req.body.folder || '';
-    fol_path = path.join(fol_path, folder);
-    var exist = fs.existsSync(fol_path);
+    current_path = path.join(folder_path, folder);
+    var exist = fs.existsSync(current_path);
     var isfolder = null;
     var files = [];
     if (exist) {
-        isfolder = fs.lstatSync(fol_path).isDirectory();
+        isfolder = fs.lstatSync(current_path).isDirectory();
         if (isfolder) {
-            files = fs.readdirSync(fol_path);
+            files = fs.readdirSync(current_path);
         }
-    } else {
-
-    }
+    } 
 
     res.json({
-        path: fol_path,
+        path: folder_path,
         exist: exist,
         folder: folder,
         isfolder: isfolder,
-        files: files
+        files: files,
+        file_location: current_path
     });
 });
 
