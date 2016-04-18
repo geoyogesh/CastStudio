@@ -1,8 +1,8 @@
-<div>{{path}}</div> 
+<div class="custom_button levelup" (click)="fileSelectionChanged('../')"></div> <div>{{path}}</div> 
 <ul class="files">
     <li *ngFor="#file of fileList" (click)="fileSelectionChanged(file)">
     <span [class]="getStyle(file)"></span>
     {{ file }}
     </li>
 </ul>
-<div>{{dataJson}}</div>
+<div class="console">{{dataJson}}</div>

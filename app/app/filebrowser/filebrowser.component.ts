@@ -21,14 +21,39 @@ export class FileBrowserComponent implements OnInit {
     constructor(private _dataservice:DataService){
         
     }
-    
+    getfiletype(filename){
+        filename = filename.toLowerCase();
+        let arr = filename.split(".");
+        let ext = arr[arr.length-1];
+        if (arr.length > 1){
+            switch (ext) {
+            case 'mp4':
+                return 'video';
+           case 'mp3':
+                return 'audio'; 
+        }
+        return 'unknown';
+        }
+        else{
+            return 'folder'
+        }
+    }
     getStyle(filename){
         filename = filename.toLowerCase();
-        if (filename.endsWith('.mp4')) return 'file-type-icon mp4-file'
-        if (filename.endsWith('.mp3')) return 'file-type-icon mp3-file'
-        return 'file-type-icon folder';
+        switch (this.getfiletype(filename)) {
+            case 'video':
+                return 'file-type-icon mp4-file';
+            case 'audio':
+                return 'file-type-icon mp3-file';
+            case 'folder':
+                return 'file-type-icon folder';
+            case 'unknown':
+                return 'file-type-icon blank-file';
+            default:
+                console.log('error');
+                return 'file-type-icon blank-file';
+        }
     }
-    
     fileSelectionChanged(evt){
         console.log(evt);
         console.log('file selection changed');
@@ -46,7 +71,12 @@ export class FileBrowserComponent implements OnInit {
                             else if(data.exist === true && data.isfolder === false) {
                                 this.ismedia_selected == true; 
                                 this.media_file_location = data.file_location;
-                                this.cast(data.file_location);
+                                
+                                let file_type = this.getfiletype(data.folder);
+                                if (file_type === 'audio' || file_type === 'video')
+                                {
+                                    this.cast(data.file_location);
+                                }
                             }
                         }, 
                         error => alert(error), () => console.log('finished'));
