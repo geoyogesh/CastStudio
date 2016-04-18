@@ -20,3 +20,33 @@
 .files li:hover{
     background-color: #a4cff9;
 }
+
+.file-type-icon{
+   width:16px; 
+   height:16px;
+   background-size: 16px 16px;
+    background-repeat: no-repeat;
+   display: block;
+   float: left;
+   margin-right: 5px;
+}
+.folder
+{ 
+   background-image:url('app/images/Folder-icon.png'); 
+}
+.blank-file
+{ 
+   background-image:url('app/images/_blank.png'); 
+}
+.mp3-file
+{ 
+   background-image:url('app/images/mp3.png'); 
+}
+.mp4-file
+{ 
+   background-image:url('app/images/mp4.png'); 
+}
+.zip-file
+{ 
+   background-image:url('app/images/zip.png'); 
+}

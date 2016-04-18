@@ -7,6 +7,8 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var player = require('chromecast-player')();
 var os = require('os');
+var open = require('open');
+
 
 // configure app to use bodyParser
 app.use(bodyParser.urlencoded({
@@ -42,11 +44,8 @@ router.get('/media/:filename', function (req, res) {
     res.sendfile(media_path);
 });
 
-// accessed at GET http://localhost:3000/api//listfiles)
+// accessed at GET http://localhost:3000/api/listfiles)
 router.post('/listfiles', function (req, res) {
-    console.log(req.connection.remoteAddress);
-    console.log(req.ip);
-    console.log(req);
     var homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
     var folder_path = req.body.path || homedir;
     var folder = req.body.folder || '';
@@ -62,12 +61,12 @@ router.post('/listfiles', function (req, res) {
     } 
 
     res.json({
-        path: folder_path,
+        path: isfolder===true?current_path:folder_path,
         exist: exist,
         folder: folder,
         isfolder: isfolder,
         files: files,
-        file_location: current_path
+        file_location: isfolder===true?null:current_path
     });
 });
 
@@ -80,7 +79,9 @@ app.use('/api', router);
 
 
 var port = process.env.PORT || 3000; // set our port
-
+var url = 'http://'+server_name+':'+ port +'/';
 http.listen(port, function () {
     console.log('listening on *:3000');
+    open(url);
 });
+

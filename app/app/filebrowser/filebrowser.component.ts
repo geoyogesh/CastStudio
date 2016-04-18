@@ -12,6 +12,7 @@ import {DataService} from "../services/data.services";
 })
 
 export class FileBrowserComponent implements OnInit {
+    classMap = { 'file-type-icon folder': true, 'file-type-icon blank-file': false };
     dataJson: string; 
     media_file_location: string;
     path:string = '';  
@@ -20,9 +21,18 @@ export class FileBrowserComponent implements OnInit {
     constructor(private _dataservice:DataService){
         
     }
+    
+    getStyle(filename){
+        filename = filename.toLowerCase();
+        if (filename.endsWith('.mp4')) return 'file-type-icon mp4-file'
+        if (filename.endsWith('.mp3')) return 'file-type-icon mp3-file'
+        return 'file-type-icon folder';
+    }
+    
     fileSelectionChanged(evt){
         console.log(evt);
         console.log('file selection changed');
+        
         this._dataservice.onInitList(this.path,evt).subscribe(data => 
                         {
                             this.dataJson = JSON.stringify(data);

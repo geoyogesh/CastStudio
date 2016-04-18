@@ -1,6 +1,7 @@
 <div>{{path}}</div> 
 <ul class="files">
     <li *ngFor="#file of fileList" (click)="fileSelectionChanged(file)">
+    <span [class]="getStyle(file)"></span>
     {{ file }}
     </li>
 </ul>
