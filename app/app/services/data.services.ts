@@ -15,10 +15,10 @@ export class DataService {
     
     onInitList(path,folder){
         console.log('gettting init list');
-        var body = JSON.stringify({
+        let body = JSON.stringify({
                     path: path, folder: folder
                     });
-        var headers = new Headers({'Content-Type': 'application/json'});
+        let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({ headers: headers });
   
         return this.http.post('/api/listfiles',body,options)
@@ -27,10 +27,10 @@ export class DataService {
     
     cast(path){
         console.log('gettting init list');
-        var body = JSON.stringify({
+        let body = JSON.stringify({
                     path: path
                 });
-        var headers = new Headers({'Content-Type': 'application/json'});
+        let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({ headers: headers });
   
         return this.http.post('/api/cast',body,options)
